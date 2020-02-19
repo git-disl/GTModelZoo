@@ -1,0 +1,112 @@
+{% extends "dlBench/base.html" %}
+{% block content %}
+<div class="jumbotron mt-3 shadow-lg">
+  <article class="media content-section shadow ">
+   <a href="{{ object.author.profile.image.url }} " target="_blank"> <img src="{{ object.author.profile.image.url }}  " alt="" class="article-img rounded-circle img-thumbnail img-fluid">
+   </a>
+   <div class="media-body">
+    <div class="">
+      <div class="d-flex justify-content-between">
+        <a class="mr-2 mt-0 mb-0  text-dark" href="{% url 'user-posts' object.author.username  %}"><h3>{{ object.author }}</h3></a>
+        <small class="text-muted  text-align-right">{{ object.date_upload }}</small>
+      </div>
+      <hr>
+          {% if object.author == user %}
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+          </div>
+          {% endif %}
+        </div>
+        <div>
+    
+          <h2>{{ object.title }}</h2>
+
+          <div class="row">
+            <div class="col">
+              <b>Task     </b>
+            </div>
+            <div class=col>
+              <b>Accuracy or Utilization   </b>  
+            </div>
+          </div>
+
+          <div class="row">
+            <div class=col>
+              {{ object.task }}     
+            </div>
+            <div class=col>
+              {{ object.performanceDetails.all.0.accuracy_or_utilization  }}
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col">
+              <b>Dataset</b>     
+            </div>
+            <div class=col>
+              <b>Model</b>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class=col>
+              {{ object.dataSetDetails.all.0.dataset_name }}     
+            </div>
+            <div class=col>
+              {{ object.dlModelDetails.all.0.model_framework }}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <b>Description</b>     
+            </div>
+          </div>
+
+          <div class="row">
+            <div class=col>
+              {{ object.project_description }}
+            </div>
+          </div>
+
+        </div>
+        <br>
+
+        {% if object.dataSetDetails.all.0.dataset_file %}
+        <b>Dataset file</b>
+        {% if object.dataSetDetails.all.0.extension == '.jpg' or object.dataSetDetails.all.0.extension == 'jpeg' or object.dataSetDetails.all.0.extension == 'png' %}
+        <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download ><img src="{{ object.dataSetDetails.all.0.dataset_file.url }}" alt="" class="img-fluid "></a>
+        <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download class="text-dark"><p>{{ object.dataSetDetails.all.0.dataset_file }}</p></a>
+        {% elif object.dataSetDetails.all.0.extension == '.mp4' %}
+        <div class="embed-responsive embed-responsive-16by9">
+          <video id="video-1_html_api" class="vjs-tech" preload="auto" autoplay >
+            <source src="{{ object.dataSetDetails.all.0.dataset_file.url }}" type="video/mp4" class="embed-responsive">
+            </video>
+          </div>
+          <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download class="text-dark"><p>{{ object.dataSetDetails.all.0.dataset_file}}</p></a>
+          {% else %}
+          <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download class="text-dark"><p>{{ object.dataSetDetails.all.0.dataset_file }}</p></a>
+          {% endif %}
+          {% endif %}
+
+          {% if object.dlModelDetails.all.0.model_file %}
+          <b>Model file</b>
+          {% if object.dlModelDetails.all.0.extension == '.jpg' or object.dlModelDetails.all.0.extension == 'jpeg' or object.dlModelDetails.all.0.extension == 'png' %}
+          <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download ><img src="{{ object.dlModelDetails.all.0.model_file.url }}" alt="" class="img-fluid "></a>
+          <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download class="text-dark"><p>{{ object.dlModelDetails.all.0.model_file }}</p></a>
+          {% elif temp.extension == '.mp4' %}
+          <div class="embed-responsive embed-responsive-16by9">
+            <video id="video-1_html_api" class="vjs-tech" preload="auto" autoplay >
+              <source src="{{ object.dlModelDetails.all.0.model_file.url }}" type="video/mp4" class="embed-responsive">
+              </video>
+            </div>
+            <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download class="text-dark"><p>{{ object.dlModelDetails.all.0.model_file}}</p></a>
+            {% else %}
+            <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download class="text-dark"><p>{{ object.dlModelDetails.all.0.model_file }}</p></a>
+            {% endif %}
+            {% endif %}
+          </div>
+        </article>
+        {% endblock content %}

@@ -1,0 +1,266 @@
+<!-- NOT NEEDED -->
+{% extends "dlBench/base.html" %}
+<!-- {% load crispy_forms_tags %} -->
+<!-- {% load i18n %} -->
+
+{% block content %}
+<!-- <body> -->
+  {% block body %}
+
+  <div class="content-section pt-2 mt-3 shadow-lg"  >
+    <form id="myForm" name="myForm" action="" method="POST" enctype="multipart/form-data" >
+
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">
+          Project
+        </legend>
+
+        {{ form | crispy }}
+
+        <!-- {% for formset in inlines %} -->
+        <!-- {{inlines | crispy}} -->
+        <!-- {% endfor %} -->
+
+        <div class="form-group">
+          <button class="btn btn-outline-primary" type="submit" onclick="return validateForm('{{ inlines | safe}}')"><i class="fas fa-upload"></i> Upload</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+
+  <script type="text/javascript">
+
+
+
+
+    function validateForm(data)
+    {
+      console.log("In form validation");
+  // TODO way to remove hardcoding
+  dataSet_url=document.getElementsByName("dataSetDetails-0-dataset_url")[0].value;
+  dataSet_file=document.getElementsByName("dataSetDetails-0-dataset_file")[0].value;
+  model_url=document.getElementsByName("dlModelDetails-0-model_url")[0].value;
+  model_file=document.getElementsByName("dlModelDetails-0-model_file")[0].value;
+  accuracy=document.getElementsByName("performanceDetails-0-accuracy_or_utilization")[0].value;
+
+
+  console.log(document.getElementById("dlModelDetails-0-dataset_file-clear_id"));
+  console.log("----");
+  if(document.getElementById("dlModelDetails-0-dataset_file-clear_id")!=null)
+  {
+    console.log("in fun");
+    dataset_checkBox_update=document.getElementById("dlModelDetails-0-dataset_file-clear_id").value;  
+    console.log(dataset_checkBox_update);
+  }
+  
+  if(dataSet_url.trim()=="" && dataSet_file.trim()=="")
+  {
+    alert("Please enter a url source of the dataset or upload the dataset file");
+    return false;
+  }
+
+  if(model_url.trim()=="" && model_file.trim()=="")
+  {
+   alert("Please enter a url of the source code for the model or upload the model source code file"); 
+   return false;
+ }
+
+ if(accuracy<0)
+ {
+   alert("Accuracy/Utilization cannot be negative."); 
+   return false;
+ }
+
+
+
+//   console.log(document.getElementsByName("dataSetDetails-0-dataset_name")[0].value);
+//   console.log(data);
+//   console.log(data[1]);
+//   // console.log(data.get('dataSetDetails'));
+//   //console.log(data.['dataSetDetails']);
+//   // console.log(data.get('dataSetDetails'));
+//   console.log("in validateMyForm");
+//   console.log(document.getElementById("item-0"));
+
+//   // for (temp in data.django.forms.formsets){
+//   //   console.log("in for");
+//   //   console.log(temp);
+//   // }
+//   for (temp in data){
+//     console.log(temp)
+//   }
+//    var example_form = data;
+
+// //     success: function(data) {
+// //        console.log("success form");
+// //         }
+// //     ,
+// //     error: function () {
+// //         // $(example_form).find('.error-message').show()
+// //         console.log("failed form");
+// //     }
+// // });
+
+return true;
+}  
+
+</script>
+
+
+
+
+{% endblock body %}
+<!-- </body> -->
+{% endblock content %}
+
+
+
+
+{% extends "dlBench/base.html" %}
+{% load crispy_forms_tags %}
+<!-- {% load i18n %} -->
+
+{% block content %}
+<!-- <body> -->
+  {% block body %}
+Hello1
+
+<div class="content-section pt-2 mt-3 shadow-lg"  >
+here
+ <form id="myForm" name="myForm" action="" method="POST" enctype="multipart/form-data" >
+  
+  {% csrf_token %}
+  <fieldset class="form-group">
+
+    <legend class="border-bottom mb-4">
+          Project
+        </legend>
+        {{ form | crispy }}
+    
+         <div class="form-group">
+          <button class="btn btn-outline-primary" type="submit" onclick="return validateForm('{{ inlines | safe}}')"><i class="fas fa-upload"></i> Upload</button>
+        </div>
+  </fieldset>
+  </form>
+  </div>
+
+
+{% endblock body %}
+<!-- </body> -->
+{% endblock content %}
+
+
+<!-- Old html -->
+
+        
+
+
+
+
+
+
+       <!--  <div id="everything" style="display: none">
+        
+        {{inlines.0 | crispy}}
+        
+    {{inlines.1| crispy}}
+     <button class="btn btn-outline-primary" type="button" onclick="testFun()"><i class="fas fa-upload"></i> Next</button>
+     <button class="btn btn-outline-primary" type="button" onclick="testFunPrev()"><i class="fas fa-upload"></i> Prev</button>
+  </div> -->
+
+   
+<!-- <div style="display: none">
+    <div id="inline-2" style="display: none">{{inlines.2 | crispy}}</div>
+         <div class="form-group">
+          <button class="btn btn-outline-primary" type="submit" onclick="return validateForm('{{ inlines | safe}}')"><i class="fas fa-upload"></i> Upload</button>
+        </div>
+ </div>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // function testFun()
+  // {
+  //    document.getElementById('everything').style.display = 'none';
+  //   document.getElementById('inline-2').style.display = '';
+  //   // location.reload();
+  // }
+
+  // function testFunPrev()
+  // {
+  //   document.getElementById('inline-2').style.display = 'none';
+  //    document.getElementById('everything').style.display = '';
+  //   // location.reload();
+  // }
+
+  // function validateForm(data)
+  //     {
+  //       console.log("In form validation");
+  //   // TODO way to remove hardcoding
+  //   dataSet_url=document.getElementsByName("dataSetDetails-0-dataset_url")[0].value;
+  //   dataSet_file=document.getElementsByName("dataSetDetails-0-dataset_file")[0].value;
+  //   model_url=document.getElementsByName("dlModelDetails-0-model_url")[0].value;
+  //   model_file=document.getElementsByName("dlModelDetails-0-model_file")[0].value;
+  //   accuracy=document.getElementsByName("performanceDetails-0-accuracy_or_utilization")[0].value;
+
+
+  //  if(accuracy<0)
+  //  {
+  //    alert("Accuracy/Utilization cannot be negative."); 
+  //    return false;
+  //  }
+   
+  //  if(document.getElementsByName("dlModelDetails-0-model_file-clear")[0])
+  //  {
+  //    if(document.getElementsByName("dlModelDetails-0-model_file-clear")[0].checked==true && model_url.trim()=="")
+  //    {
+  //       alert("Please enter a url of the source code for the model or upload the model source code file"); 
+  //       return false; 
+  //    } 
+  //  }
+  // else
+  // {
+  //     if(model_url.trim()=="" && model_file.trim()=="")
+  //   {
+  //    alert("Please enter a url of the source code for the model or upload the model source code file"); 
+  //    return false;
+  //  }
+
+  // }
+
+  //  if(document.getElementsByName("dataSetDetails-0-dataset_file-clear")[0])
+  //  {
+  //    if(document.getElementsByName("dataSetDetails-0-dataset_file-clear")[0].checked==true && dataSet_url.trim()=="")
+  //    {
+  //       alert("Please enter a url for the dataset or upload the dataset"); 
+  //       return false; 
+  //    } 
+  //  }
+  // else
+  // {
+  //     if(dataSet_url.trim()=="" && dataSet_file.trim()=="")
+  //   {
+  //    alert("Please enter a url for the dataset or upload the dataset");
+  //    return false;
+  //  }
+
+  // }
+  // return true;
+  // }  
+
+

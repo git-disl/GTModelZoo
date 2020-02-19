@@ -1,0 +1,27 @@
+<!-- NOT NEEDED -->
+
+{% extends 'dlBench/base.html' %}
+{% block content %}
+<p>Projects containing '{{query_string}}'</p> 
+{% for project in projects %}
+    <div>
+        <span> {{ project.created }} </span>
+        <a href="{% url 'post-detail' project.id %}"><h2 class="page-title">{{ project.title }}</h2></a>
+        <div class="project">
+            {{ project.body|safe }}
+        </div>
+    </div>
+{% endfor %}
+
+<p> Data Set Containing '{{query_string}}'</p>
+{% for dataSet in dataSets %}
+    <div>
+        <span> {{ dataSet.created }} </span>
+        <a href="{% url 'post-detail' project.id %}"><h2 class="page-title">{{ dataSet.name }}</h2></a>
+        <div class="project">
+            {{ dataSet.body|safe }}
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock content %}

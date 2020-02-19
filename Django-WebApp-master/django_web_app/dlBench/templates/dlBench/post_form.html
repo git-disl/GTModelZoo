@@ -1,0 +1,304 @@
+  {% extends "dlBench/base.html" %}
+  {% load crispy_forms_tags %}
+  
+
+  {% block content %}
+  
+  {% block body %}
+
+
+  <div class="content-section pt-2 mt-3 shadow-lg"  >
+
+   <form id="myForm" name="myForm" action="" method="POST" enctype="multipart/form-data" >
+
+    {% csrf_token %}
+    <div>{{form.author |  crispy}}</div>
+    <fieldset class="form-group" id="myFieldSet">
+
+      <div id="projectViewId" >
+       <legend class="border-bottom mb-4">
+        Project Overview
+      </legend>
+      {{ form | crispy }} 
+    </div> 
+    <br>
+    <div id="projectButtonsViewId">
+      <button class="btn btn-outline-primary" type="button" onclick="toDataSet()">Next <i class="fas fa-arrow-right"></i>  </button>          
+    </div>  
+
+    <div id="dataSetViewId" style="display: none" >
+      <legend class="border-bottom mb-4">
+        Data Set Overview
+      </legend>
+      {{ inlines.0 | crispy }}  
+    </div>
+    <div id="dataSetButtonsViewId" style="display: none">
+      <br>
+      <button class="btn btn-outline-primary" type="button" onclick="backToProject()"><i class="fas fa-arrow-left"></i> Back </button>
+      <button class="btn btn-outline-primary" type="button" onclick="toModel()">Next <i class="fas fa-arrow-right"></i> </button>
+    </div>  
+
+    <div id="dlModelViewId" style="display: none" >
+      <legend class="border-bottom mb-4">
+        Model Overview
+      </legend>
+      {{ inlines.1 | crispy }} 
+    </div> 
+    <br>
+    <div id="dlModelButtonsViewId" style="display: none">
+      <button class="btn btn-outline-primary" type="button" onclick="backToDataSet()"><i class="fas fa-arrow-left"></i> Back </button> 
+      <button class="btn btn-outline-primary" type="button" onclick="toMetrics()"> Next <i class="fas fa-arrow-right"></i> </button>
+    </div>  
+
+    <div id="metricsViewId" style="display: none" >
+      <legend class="border-bottom mb-4">
+        Performance Metrics Overview
+      </legend>
+      {{ inlines.2 | crispy }}  
+      <br>
+    </div>
+    <div id="metricsButtonsViewId" style="display: none">
+      <button class="btn btn-outline-primary" type="button" onclick="backToModel()"><i class="fas fa-arrow-left"></i> Back </button> 
+      
+        <button class="btn btn-outline-primary" type="button" onclick="toSubmit()"> Review</button>
+    </div>  
+
+  </fieldset>
+  <div id="previewButtonsId" style="display:none">
+    <button class="btn btn-outline-primary" type="button" onclick="backToMetrics()"><i class="fas fa-arrow-left"></i> Back </button> 
+
+    <button class="btn btn-outline-primary" type="submit" onclick="finalSubmit()" data-toggle="modal" data-target="#myModal" ><i class="fas fa-upload"></i> Submit</button>
+  </div>
+</form>
+</div>
+
+
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Submitting Project</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+
+  //Fuction to see dataset view
+  function toDataSet()
+  {
+    title=document.getElementsByName("title")[0].value.trim();
+    task=document.getElementsByName("task")[0].value.trim();
+    if(title=="")
+    {
+      alert("Please enter the project title");
+      return false;
+    }
+    if(task=="")
+    {
+      alert("Please enter the task you are accomplishing through the model");
+      return false;
+    }
+
+    document.getElementById('projectViewId').style.display = 'none';
+    document.getElementById('projectButtonsViewId').style.display = 'none';
+    document.getElementById('dataSetViewId').style.display = '';
+    document.getElementById('dataSetButtonsViewId').style.display = '';
+    
+  }
+
+  function backToProject()
+  {
+    document.getElementById('projectViewId').style.display = '';
+    document.getElementById('projectButtonsViewId').style.display = '';
+    document.getElementById('dataSetViewId').style.display = 'none'; 
+    document.getElementById('dataSetButtonsViewId').style.display = 'none'; 
+  }
+
+  function toModel()
+  {
+
+    dataset_title=document.getElementsByName("dataSetDetails-0-dataset_name")[0].value.trim();
+    dataSet_url=document.getElementsByName("dataSetDetails-0-dataset_url")[0].value.trim();
+    dataSet_file=document.getElementsByName("dataSetDetails-0-dataset_file")[0].value;
+
+
+    if(dataset_title=="")
+    {
+      alert("Please enter the name of datatset used");
+      return false;
+    }
+    var expression =  
+    /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi; 
+    
+    var regex = new RegExp(expression); 
+
+    urlStart=new RegExp("^(http|https)://")
+
+
+
+    if(document.getElementsByName("dataSetDetails-0-dataset_file-clear")[0])
+    {
+     if(document.getElementsByName("dataSetDetails-0-dataset_file-clear")[0].checked==true && dataSet_url.trim()=="")
+     {
+      alert("Please enter a url for the dataset or upload the dataset"); 
+      return false; 
+    } 
+  }
+
+  else
+  {
+    if(dataSet_url.trim()=="" && dataSet_file.trim()=="")
+    {
+     alert("Please enter a url for the dataset or upload the dataset");
+     return false;
+   }
+
+ }
+
+ if(dataSet_url.trim()!=""&& !(dataSet_url.match(urlStart)) )
+ { 
+  alert("Please enter the complete url with http or https");
+  return false;
+}else if(dataSet_url.trim()!=""&& (dataSet_url.match(urlStart))&& !(dataSet_url.match(regex)))
+{
+  alert("Please enter a valid url");
+  return false;
+}
+
+
+document.getElementById('dlModelViewId').style.display = '';
+document.getElementById('dlModelButtonsViewId').style.display = '';
+document.getElementById('dataSetViewId').style.display = 'none'; 
+document.getElementById('dataSetButtonsViewId').style.display = 'none'; 
+
+
+}
+
+function backToDataSet()
+{
+  document.getElementById('dlModelViewId').style.display = 'none';
+  document.getElementById('dlModelButtonsViewId').style.display = 'none';
+  document.getElementById('dataSetViewId').style.display = ''; 
+  document.getElementById('dataSetButtonsViewId').style.display = ''; 
+}
+
+function toMetrics()
+{
+
+  model_title=document.getElementsByName("dlModelDetails-0-model_framework")[0].value.trim();
+  model_url=document.getElementsByName("dlModelDetails-0-model_url")[0].value;
+  model_file=document.getElementsByName("dlModelDetails-0-model_file")[0].value;
+
+  var expression =  
+    /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi; 
+    
+  var regex = new RegExp(expression); 
+
+  urlStart=new RegExp("^(http|https)://")
+
+
+  if(model_title=="")
+  {
+    alert("Please enter the name of model framework  used");
+    return false;
+  }
+
+  if(document.getElementsByName("dlModelDetails-0-model_file-clear")[0])
+  {
+   if(document.getElementsByName("dlModelDetails-0-model_file-clear")[0].checked==true && model_url.trim()=="")
+   {
+    alert("Please enter a url of the source code for the model or upload the model source code file"); 
+    return false; 
+  } 
+}
+else
+{
+  if(model_url.trim()=="" && model_file.trim()=="")
+  {
+   alert("Please enter a url of the source code for the model or upload the model source code file"); 
+   return false;
+ }
+
+}
+
+if(model_url.trim()!=""&& !(model_url.match(urlStart)) )
+ { 
+  alert("Please enter the complete url with http or https");
+  return false;
+}else if(model_url.trim()!=""&& (model_url.match(urlStart))&& !(model_url.match(regex)))
+{
+  alert("Please enter a valid url");
+  return false;
+}
+
+document.getElementById('dlModelViewId').style.display = 'none';
+document.getElementById('dlModelButtonsViewId').style.display = 'none';
+document.getElementById('metricsViewId').style.display = ''; 
+document.getElementById('metricsButtonsViewId').style.display = ''; 
+
+}
+
+function backToModel()
+{
+  document.getElementById('metricsViewId').style.display = 'none';
+  document.getElementById('metricsButtonsViewId').style.display = 'none';
+  document.getElementById('dlModelViewId').style.display = ''; 
+  document.getElementById('dlModelButtonsViewId').style.display = ''; 
+}
+function toSubmit()
+{
+ accuracy=document.getElementsByName("performanceDetails-0-accuracy_or_utilization")[0].value;
+
+
+ if(accuracy=="" || accuracy<0)
+ {
+   alert("Accuracy/Utilization cannot be negative or empty."); 
+   return false;
+ }
+
+   // document.getElementById('reviewId').style.display = '';
+   document.getElementById('metricsViewId').style.display = '';
+   document.getElementById('dlModelViewId').style.display = ''; 
+   document.getElementById('dataSetViewId').style.display = ''; 
+   document.getElementById('projectViewId').style.display = '';  
+
+   document.getElementById('metricsButtonsViewId').style.display = 'none';
+   document.getElementById('dlModelButtonsViewId').style.display = 'none'; 
+   document.getElementById('dataSetButtonsViewId').style.display = 'none'; 
+   document.getElementById('projectButtonsViewId').style.display = 'none';  
+
+   document.getElementById('myFieldSet').disabled=true;
+   document.getElementById('previewButtonsId').style.display = '';  
+
+ }
+
+ function backToMetrics()
+ {
+   document.getElementById('myFieldSet').disabled=false;
+   document.getElementById('metricsViewId').style.display = ''; 
+   document.getElementById('metricsButtonsViewId').style.display = ''; 
+   document.getElementById('dlModelViewId').style.display = 'none'; 
+   document.getElementById('dataSetViewId').style.display = 'none'; 
+   document.getElementById('projectViewId').style.display = 'none';  
+   document.getElementById('previewButtonsId').style.display = 'none';  
+
+
+ }
+
+ function finalSubmit()
+ {
+  document.getElementById('myFieldSet').disabled=false;
+
+}
+
+
+</script>
+{% endblock body %}
+{% endblock content %}
