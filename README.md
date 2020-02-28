@@ -19,7 +19,7 @@ GTModelZoo aims to provide a portal to submit and explore DL Benchmarking projec
 </ol>
 
 <h3>Note</h3>
-GTModelZoo was built on the [Django-WebApp](https://github.com/smahesh29/Django-WebApp.git)
+GTModelZoo was built on the <a href="https://github.com/smahesh29/Django-WebApp">Django-WebApp</a>.
 
 <h7>Usage :</h7>
 
