@@ -11,102 +11,199 @@
         <small class="text-muted  text-align-right">{{ object.date_upload }}</small>
       </div>
       <hr>
-          {% if object.author == user %}
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
-          </div>
-          {% endif %}
+      {% if object.author == user %}
+      <div>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+      </div>
+      {% endif %}
+    </div>
+    <div>
+
+      <h2>{{ object.title }}</h2>
+
+      <div class="row">
+        <div class="col">
+          <b>Task     </b>
         </div>
-        <div>
-    
-          <h2>{{ object.title }}</h2>
-
-          <div class="row">
-            <div class="col">
-              <b>Task     </b>
-            </div>
-            <div class=col>
-              <b>Accuracy or Utilization   </b>  
-            </div>
-          </div>
-
-          <div class="row">
-            <div class=col>
-              {{ object.task }}     
-            </div>
-            <div class=col>
-              {{ object.performanceDetails.all.0.accuracy_or_utilization  }}
-            </div>
-          </div>
-
-          <br>
-          <div class="row">
-            <div class="col">
-              <b>Dataset</b>     
-            </div>
-            <div class=col>
-              <b>Model</b>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class=col>
-              {{ object.dataSetDetails.all.0.dataset_name }}     
-            </div>
-            <div class=col>
-              {{ object.dlModelDetails.all.0.model_framework }}
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col">
-              <b>Description</b>     
-            </div>
-          </div>
-
-          <div class="row">
-            <div class=col>
-              {{ object.project_description }}
-            </div>
-          </div>
-
+        <div class=col>
+          <b>Accuracy or Utilization   </b>  
         </div>
-        <br>
+      </div>
 
-        {% if object.dataSetDetails.all.0.dataset_file %}
-        <b>Dataset file</b>
-        {% if object.dataSetDetails.all.0.extension == '.jpg' or object.dataSetDetails.all.0.extension == 'jpeg' or object.dataSetDetails.all.0.extension == 'png' %}
-        <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download ><img src="{{ object.dataSetDetails.all.0.dataset_file.url }}" alt="" class="img-fluid "></a>
-        <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download class="text-dark"><p>{{ object.dataSetDetails.all.0.dataset_file }}</p></a>
-        {% elif object.dataSetDetails.all.0.extension == '.mp4' %}
-        <div class="embed-responsive embed-responsive-16by9">
-          <video id="video-1_html_api" class="vjs-tech" preload="auto" autoplay >
-            <source src="{{ object.dataSetDetails.all.0.dataset_file.url }}" type="video/mp4" class="embed-responsive">
-            </video>
-          </div>
-          <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download class="text-dark"><p>{{ object.dataSetDetails.all.0.dataset_file}}</p></a>
-          {% else %}
-          <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download class="text-dark"><p>{{ object.dataSetDetails.all.0.dataset_file }}</p></a>
-          {% endif %}
-          {% endif %}
+      <div class="row">
+        <div class=col>
+          {{ object.task }}     
+        </div>
+        <div class=col>
+          {{ object.performanceDetails.all.0.accuracy_or_utilization  }}
+        </div>
+      </div>
 
-          {% if object.dlModelDetails.all.0.model_file %}
-          <b>Model file</b>
-          {% if object.dlModelDetails.all.0.extension == '.jpg' or object.dlModelDetails.all.0.extension == 'jpeg' or object.dlModelDetails.all.0.extension == 'png' %}
-          <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download ><img src="{{ object.dlModelDetails.all.0.model_file.url }}" alt="" class="img-fluid "></a>
-          <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download class="text-dark"><p>{{ object.dlModelDetails.all.0.model_file }}</p></a>
-          {% elif temp.extension == '.mp4' %}
-          <div class="embed-responsive embed-responsive-16by9">
-            <video id="video-1_html_api" class="vjs-tech" preload="auto" autoplay >
-              <source src="{{ object.dlModelDetails.all.0.model_file.url }}" type="video/mp4" class="embed-responsive">
-              </video>
-            </div>
-            <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download class="text-dark"><p>{{ object.dlModelDetails.all.0.model_file}}</p></a>
-            {% else %}
-            <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download class="text-dark"><p>{{ object.dlModelDetails.all.0.model_file }}</p></a>
-            {% endif %}
-            {% endif %}
-          </div>
-        </article>
-        {% endblock content %}
+
+      {% if object.project_description %}
+      <br>
+      <div class="row">
+        <div class="col">
+          <b>Description</b>     
+        </div>
+      </div>
+
+      <div class="row">
+        <div class=col>
+          {{ object.project_description }}
+        </div>
+      </div>
+      {% endif %}
+      <br>
+      {% if object.configurations_varied %}
+      <div class="row">
+        <div class="col">
+          <b>Configurations varied</b>     
+        </div>
+      </div>
+
+      <div class="row">
+        <div class=col>
+          {{ object.configurations_varied }}
+        </div>
+      </div>
+      {% endif %}
+      <hr>
+      <h5>Data Set Overview</h5>
+      <div class="row">
+        <div class="col">
+          <b>Dataset</b>     
+        </div>
+        {% if object.dataSetDetails.all.0.dataset_url %}
+        <div class="col">
+          <b>Dataset Source URL</b>     
+        </div>
+        {% endif %}
+      </div>  
+      <div class="row">
+        <div class=col>
+          {{ object.dataSetDetails.all.0.dataset_name }}     
+        </div>
+        {% if object.dataSetDetails.all.0.dataset_url %}
+        <div class=col>
+          {{ object.dataSetDetails.all.0.dataset_url }}     
+        </div>
+        {% endif %}
+      </div> 
+      <br>
+      {% if object.dataSetDetails.all.0.dataset_description %}
+      <div class="row">
+        <div class="col">
+          <b>Dataset Description</b>     
+        </div>
+      </div>  
+      <div class="row">
+        <div class=col>
+          {{ object.dataSetDetails.all.0.dataset_description }}     
+        </div>
+      </div>  
+      {% endif %}
+
+      {% if object.dataSetDetails.all.0.dataset_file %}
+      <br>
+      <b>Dataset file</b>
+      <a href="{{ object.dataSetDetails.all.0.dataset_file.url }}"  download class="text-dark">&nbsp <i class="fas fa-download"></i><p>{{ object.dataSetDetails.all.0.dataset_file }}</p></a>
+      {% endif%}
+
+      <hr>
+      <h5>Model Overview</h5>
+      <div class="row">
+        <div class="col">
+          <b>Model</b>     
+        </div>
+        {% if object.dlModelDetails.all.0.model_url %}
+        <div class="col">
+          <b>Model Source URL</b>     
+        </div>
+        {% endif %}
+      </div>  
+      <div class="row">
+        <div class=col>
+          {{ object.dlModelDetails.all.0.model_framework }}     
+        </div>
+        {% if object.dlModelDetails.all.0.model_url %}
+        <div class=col>
+          {{ object.dlModelDetails.all.0.model_url }}     
+        </div>
+
+        {% endif %}
+      </div> 
+
+      <br>
+      {% if object.dlModelDetails.all.0.model_description %}
+      <div class="row">
+        <div class="col">
+          <b>Model Description</b>     
+        </div>
+      </div>  
+      <div class="row">
+        <div class=col>
+          {{ object.dlModelDetails.all.0.model_description }}     
+        </div>
+      </div>  
+      {% endif %}
+
+
+      {% if object.dlModelDetails.all.0.model_file %}
+      <br>
+      <b>Model file</b>
+      <a href="{{ object.dlModelDetails.all.0.model_file.url }}"  download class="text-dark">&nbsp <i class="fas fa-download"></i><p>{{ object.dlModelDetails.all.0.model_file }}</p></a>
+      {% endif %}
+
+      <hr>
+      {% if object.performanceDetails.all.0.training_time or object.performanceDetails.all.0.testing_time or object.performanceDetails.all.0.metrics_description %}
+      <h5>Performance Metrics</h5>
+      {% endif %}
+      <div class="row">
+       {% if object.performanceDetails.all.0.training_time %}
+       <div class="col">
+        <b>Training time</b>     
+      </div>
+      {% endif %}   
+
+      {% if object.performanceDetails.all.0.testing_time %}
+      <div class="col">
+        <b>Testing time</b>     
+      </div>
+      {% endif %}   
+
+    </div>  
+    <div class="row">
+      {% if object.performanceDetails.all.0.training_time %}
+      <div class=col>
+        {{ object.performanceDetails.all.0.training_time }}     
+      </div>
+      {% endif %}
+
+      {% if object.performanceDetails.all.0.testing_time %}
+      <div class=col>
+        {{ object.performanceDetails.all.0.testing_time }}     
+      </div>
+      {% endif %}
+
+    </div>  
+    <br>
+    {% if object.performanceDetails.all.0.metrics_description %}
+    <div class="row">
+      <div class="col">
+        <b>Metrics Description</b>     
+      </div>
+    </div>  
+    <div class="row">
+      <div class=col>
+        {{ object.performanceDetails.all.0.metrics_description }}     
+      </div>
+    </div>  
+    {% endif %}
+
+  </div>
+  <br>
+</div>
+</article>
+{% endblock content %}

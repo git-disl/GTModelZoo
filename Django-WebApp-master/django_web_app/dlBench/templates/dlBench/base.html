@@ -19,7 +19,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand font-weight-bold" href="{% url 'blog-about' %}"><!-- <i class="fas fa-file"></i> -->GTModelZoo</a>
+      <a class="navbar-brand font-weight-bold" href="{% url 'blog-about' %}" ><!-- <i class="fas fa-file"></i> -->GTModelZoo</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -28,7 +28,6 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'blog-home' %}"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
-
           </li>                    
         </ul>
         <!------{{ request.get_host }}/blog/search/-->
@@ -48,7 +47,8 @@
 
         <a href="{% url 'register' %} " class="btn text-white m-2"> <i class="fas fa-sign-in-alt"></i> Sign Up</a>
         {% endif %}
-
+        
+        <a class="nav-link" style="color:white"href="{% url 'blog-about' %}">About</a>
       </div>
     </nav>
     <div class="container my-bg">
@@ -70,5 +70,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="{% static 'dlBench/main.js' %}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <hr>
   </body>
   </html>
